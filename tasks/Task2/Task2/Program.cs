@@ -19,7 +19,11 @@ namespace Task2
             test2.print_all();
 
             Console.WriteLine("");
+<<<<<<< HEAD
             Console.WriteLine("Ändere bei Fernseher Kaufdatum auf 2.05.2017");
+=======
+            Console.WriteLine("Änder bei Fernseher Kaufdatum auf 2.05.2017");
+>>>>>>> 9152eacc0a8d456cdd8ea5ca188e14702d47eaa6
             Test.Purchasedate = DateTime.Parse("02.05.2017");
             Console.WriteLine("Änder bei Fernseher IP LAN auf 10.0.0.1");
             Test.update_IP_LAN("10.0.0.1");

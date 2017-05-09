@@ -41,11 +41,19 @@ namespace Task2
 
         public string Serialnumber { get; set; }
         public DateTime Purchasedate { get; set; }
+<<<<<<< HEAD
         public DateTime warranty_until()
         {
             return DateTime.Now;
         }
         private int Warranty_duration{ get; set; }
+=======
+        private DateTime warranty_until()
+        {
+            return DateTime.Now;
+        }
+        public int Warranty_duration{ get; set; }
+>>>>>>> 9152eacc0a8d456cdd8ea5ca188e14702d47eaa6
 
         private decimal Price;
         private string IP_adress_LAN;
@@ -72,6 +80,10 @@ namespace Task2
 
         public void print_all()
         {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9152eacc0a8d456cdd8ea5ca188e14702d47eaa6
             Console.WriteLine("Device name: " + Name);
             Console.WriteLine("Type: " + Type);
             Console.WriteLine("Producer: " + Producer);
