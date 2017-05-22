@@ -15,11 +15,19 @@ namespace Task2
 
     public class furniture:objekt
     {
-        public furniture(string name, string type):this(name, type, "", DateTime.Now, 2)
+
+        /// <summary>
+        /// Creates new furniture. Purchase date is now.
+        /// </summary>
+        public furniture(string name, string type):this(name, type, "", DateTime.Now.Date, 2)
         {
 
         }
 
+        /// <summary>
+        /// Creates new furniture with all parameters.
+        /// </summary>
+        /// <param name="warranty_duration">Duration of warranty in years.</param>
         public furniture(string name, string type, string producer, DateTime purchasedate, int warranty_duration)
         {
             Name = name;
@@ -37,11 +45,17 @@ namespace Task2
         public DateTime Purchasedate { get; set; }
         public int Warranty_duration { get; set; }
 
+        /// <summary>
+        /// Calculates warranty expiration with purchase date and warranty durration.
+        /// </summary>
         public DateTime warranty_until()
         {
             return Purchasedate.AddYears(Warranty_duration);
         }
 
+        /// <summary>
+        /// Prints all parameters of class with actuall values.
+        /// </summary>
         public void print_all()
         {
             Console.WriteLine("Furniture name: " + Name);
@@ -57,7 +71,7 @@ namespace Task2
     {
 
         public device(string name)
-            :this(name,"default", "default",false,false,"",DateTime.Now,0,0,"000.000.000.000","000.000.000.000")
+            :this(name,"default", "default",false,false,"",DateTime.Now.Date,0,0,"000.000.000.000","000.000.000.000")
         {
             
         }
@@ -101,7 +115,7 @@ namespace Task2
 
         public void update_IP(string ip, Boolean is_WiFi)
         { 
-            if (ip.Length > 15) { throw new ArgumentException("IP ungültig", nameof(ip)); };
+            if (ip.Length > 15 || ip.Length < 7) { throw new ArgumentException("IP ungültig", nameof(ip)); };
             var ip_str = ip.Split('.');
             if (int.Parse(ip_str[0]) > 255) { throw new ArgumentException("IP ungültig", nameof(ip)); };
             if (int.Parse(ip_str[1]) > 255) { throw new ArgumentException("IP ungültig", nameof(ip)); };
@@ -118,8 +132,8 @@ namespace Task2
             {
                 if (!WiFi)
                 {
-                    WiFi = true;
-                    //throw new Exception("LAN ist nicht verfügbar!");
+                    //WiFi = true;
+                    throw new Exception("WiFi ist nicht verfügbar!");
                 }
                 IP_adress_WiFi = ip;
             }
@@ -127,8 +141,8 @@ namespace Task2
             else { 
                 if (!LAN)
                 {
-                    LAN = true;
-                    //throw new Exception("LAN ist nicht verfügbar!");
+                    //LAN = true;
+                    throw new Exception("LAN ist nicht verfügbar!");
                 }
                 IP_adress_LAN = ip;
             }

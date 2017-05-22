@@ -18,7 +18,8 @@ namespace Task2
                 new device("Laptop", "Aspire", "Acer", true, true, "", DateTime.Parse("25.03.2016"), 4, 500, "192.168.1.1", "192.168.1.2"),
                 new furniture("Charlys","Schreibtisch"),
                 new furniture("Schrank Schlafzimmer tief", "PAX", "IKEA", DateTime.Parse("25.02.2017"), 4),
-            };
+                new device("Testgerät","testype","noname",false,false,"",DateTime.Now.Date,0,25,"0.0.0.0","0.0.0.0")
+       };
 
         //var currency = Currency.EUR;
         foreach (var x in items)
