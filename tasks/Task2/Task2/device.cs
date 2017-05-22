@@ -6,7 +6,54 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
-    public class device
+
+    interface objekt
+    {
+        DateTime warranty_until();
+        void print_all();
+    }
+
+    public class furniture:objekt
+    {
+        public furniture(string name, string type):this(name, type, "", DateTime.Now, 2)
+        {
+
+        }
+
+        public furniture(string name, string type, string producer, DateTime purchasedate, int warranty_duration)
+        {
+            Name = name;
+            Type = type;
+            Producer = producer;
+            Purchasedate = purchasedate;
+            Warranty_duration = warranty_duration;
+        }
+
+
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Producer { get; set; }
+        public string Color { get; set; }
+        public DateTime Purchasedate { get; set; }
+        public int Warranty_duration { get; set; }
+
+        public DateTime warranty_until()
+        {
+            return Purchasedate.AddYears(Warranty_duration);
+        }
+
+        public void print_all()
+        {
+            Console.WriteLine("Furniture name: " + Name);
+            Console.WriteLine("Type: " + Type);
+            Console.WriteLine("Producer: " + Producer);
+            Console.WriteLine("Purchase date: " + Purchasedate);
+            Console.WriteLine("Warranty until: " + warranty_until());
+        }
+
+    }
+
+    public class device:objekt
     {
 
         public device(string name)
@@ -26,7 +73,8 @@ namespace Task2
             Purchasedate = purchasedate;
             Warranty_duration = warranty_duration;
             Price = price;
-            update_IP_LAN(ip_LAN);
+            update_IP(ip_LAN,false);
+            update_IP(ip_WiFi, true);
         }
 
 
@@ -37,28 +85,22 @@ namespace Task2
         public Boolean WiFi { get; set; }
         public Boolean LAN { get; set; }
 
-
-
         public string Serialnumber { get; set; }
         public DateTime Purchasedate { get; set; }
-        private DateTime warranty_until()
+        public int Warranty_duration { get; set; }
+
+        public DateTime warranty_until()
         {
-            return DateTime.Now;
+            return Purchasedate.AddYears(Warranty_duration);
         }
-        public int Warranty_duration{ get; set; }
+       
 
         private decimal Price;
         private string IP_adress_LAN;
+        private string IP_adress_WiFi;
 
-
-        public void update_IP_LAN(string ip)
-        {
-            if (!LAN)
-            {
-                LAN = true;
-                //throw new Exception("LAN ist nicht verfügbar!");
-            }
-
+        public void update_IP(string ip, Boolean is_WiFi)
+        { 
             if (ip.Length > 15) { throw new ArgumentException("IP ungültig", nameof(ip)); };
             var ip_str = ip.Split('.');
             if (int.Parse(ip_str[0]) > 255) { throw new ArgumentException("IP ungültig", nameof(ip)); };
@@ -66,7 +108,32 @@ namespace Task2
             if (int.Parse(ip_str[2]) > 255) { throw new ArgumentException("IP ungültig", nameof(ip)); };
             if (int.Parse(ip_str[3]) > 255) { throw new ArgumentException("IP ungültig", nameof(ip)); };
 
-            IP_adress_LAN = ip;
+            if ((int.Parse(ip_str[0]) == 0) & (int.Parse(ip_str[1]) == 0) & (int.Parse(ip_str[2]) == 0) & (int.Parse(ip_str[3]) == 0)) 
+            {
+                if (is_WiFi) WiFi = false;
+                else LAN = false;
+                return;
+            }
+            if (is_WiFi)
+            {
+                if (!WiFi)
+                {
+                    WiFi = true;
+                    //throw new Exception("LAN ist nicht verfügbar!");
+                }
+                IP_adress_WiFi = ip;
+            }
+
+            else { 
+                if (!LAN)
+                {
+                    LAN = true;
+                    //throw new Exception("LAN ist nicht verfügbar!");
+                }
+                IP_adress_LAN = ip;
+            }
+
+
 
         }
 
