@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Task2
 {
@@ -27,7 +28,7 @@ namespace Task2
         /// <summary>
         /// Creates new furniture with all parameters.
         /// </summary>
-        /// <param name="warranty_duration">Duration of warranty in years.</param>
+        /// <param name="warranty_duration">Duration of warranty in full years.</param>
         public furniture(string name, string type, string producer, DateTime purchasedate, int warranty_duration)
         {
             Name = name;
@@ -70,19 +71,20 @@ namespace Task2
     public class device:objekt
     {
 
+
         public device(string name)
             :this(name,"default", "default",false,false,"",DateTime.Now.Date,0,0,"000.000.000.000","000.000.000.000")
         {
             
         }
-
-        public device(string name, string type, string producer, Boolean has_LAN,Boolean has_WiFi, string serialnumber, DateTime purchasedate, int warranty_duration, decimal price, string ip_LAN, string ip_WiFi)
+        [JsonConstructor]
+        public device(string name, string type, string producer, Boolean has_lan,Boolean has_wifi, string serialnumber, DateTime purchasedate, int warranty_duration, decimal price, string ip_LAN, string ip_WiFi)
         {
             Name = name;
             Type = type;
             Producer = producer;
-            WiFi = has_WiFi;
-            LAN = has_LAN;
+            has_LAN = has_lan;
+            has_WiFi = has_wifi;
             Serialnumber = serialnumber;
             Purchasedate = purchasedate;
             Warranty_duration = warranty_duration;
@@ -96,8 +98,8 @@ namespace Task2
         public string Type { get; set; }
         public string Producer { get; set; }
 
-        public Boolean WiFi { get; set; }
-        public Boolean LAN { get; set; }
+        public Boolean has_LAN { get; set; }
+        public Boolean has_WiFi { get; set; }
 
         public string Serialnumber { get; set; }
         public DateTime Purchasedate { get; set; }
@@ -109,9 +111,9 @@ namespace Task2
         }
        
 
-        private decimal Price;
-        private string IP_adress_LAN;
-        private string IP_adress_WiFi;
+        public decimal Price;
+        public string IP_adress_LAN;
+        public string IP_adress_WiFi;
 
         public void update_IP(string ip, Boolean is_WiFi)
         { 
@@ -124,13 +126,13 @@ namespace Task2
 
             if ((int.Parse(ip_str[0]) == 0) & (int.Parse(ip_str[1]) == 0) & (int.Parse(ip_str[2]) == 0) & (int.Parse(ip_str[3]) == 0)) 
             {
-                if (is_WiFi) WiFi = false;
-                else LAN = false;
+                if (is_WiFi) has_WiFi = false;
+                else has_LAN = false;
                 return;
             }
             if (is_WiFi)
             {
-                if (!WiFi)
+                if (!has_WiFi)
                 {
                     //WiFi = true;
                     throw new Exception("WiFi ist nicht verfügbar!");
@@ -139,16 +141,13 @@ namespace Task2
             }
 
             else { 
-                if (!LAN)
+                if (!has_LAN)
                 {
                     //LAN = true;
                     throw new Exception("LAN ist nicht verfügbar!");
                 }
                 IP_adress_LAN = ip;
             }
-
-
-
         }
 
         public void print_all()
@@ -157,8 +156,8 @@ namespace Task2
             Console.WriteLine("Device name: " + Name);
             Console.WriteLine("Type: " + Type);
             Console.WriteLine("Producer: " + Producer);
-            Console.WriteLine("has LAN: " + LAN);
-            Console.WriteLine("has WiFi: " + WiFi);
+            Console.WriteLine("has LAN: " + has_LAN);
+            Console.WriteLine("has WiFi: " + has_WiFi);
             Console.WriteLine("Serialnumber: " + Serialnumber);
             Console.WriteLine("Purchase date: " + Purchasedate);
             Console.WriteLine("Warranty until: " + warranty_until());
@@ -166,8 +165,5 @@ namespace Task2
             Console.WriteLine("IP LAN: " + IP_adress_LAN);
 
         }
-
-
-
     }
 }

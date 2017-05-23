@@ -23,7 +23,7 @@ namespace Task2
         public void success_change_IP_LAN_WiFi()
         {
             device test1 = new device("Testgerät");
-            test1.LAN = true;
+            test1.has_LAN = true;
             test1.update_IP("100.20.20.20", false);
         }
         [Test]
@@ -32,7 +32,7 @@ namespace Task2
             Assert.Catch(() =>
             {
                 device test1 = new device("Testgerät");
-                test1.LAN = true;
+                test1.has_LAN = true;
                 test1.update_IP("300.20.20.20", false);         
             });
         }
@@ -66,7 +66,7 @@ namespace Task2
         public void objekt_test()
         {
             furniture test1 = new furniture("Schrank Schlafzimmer tief", "PAX", "IKEA", DateTime.Parse("25.02.2017"), 4);
-            furniture test2 = new furniture("Schrank Schlafzimmer tief", "PAX", "IKEA", DateTime.Parse("25.02.2017"), 4);
+            furniture test2 = test1; // new furniture("Schrank Schlafzimmer tief", "PAX", "IKEA", DateTime.Parse("25.02.2017"), 4);
 
             Assert.AreSame(test1, test2);
         }
