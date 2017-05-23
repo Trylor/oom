@@ -17,6 +17,13 @@ namespace Task2
     public class furniture:objekt
     {
 
+        //public furniture(string name, string type, string producer, DateTime purchasedate, int warranty_duration)
+        //    : this(name, type, producer, purchasedate, warranty_duration)
+        //{
+
+        //}
+
+
         /// <summary>
         /// Creates new furniture. Purchase date is now.
         /// </summary>
@@ -29,6 +36,7 @@ namespace Task2
         /// Creates new furniture with all parameters.
         /// </summary>
         /// <param name="warranty_duration">Duration of warranty in full years.</param>
+        [JsonConstructor]
         public furniture(string name, string type, string producer, DateTime purchasedate, int warranty_duration)
         {
             Name = name;
@@ -42,9 +50,10 @@ namespace Task2
         public string Name { get; set; }
         public string Type { get; set; }
         public string Producer { get; set; }
-        public string Color { get; set; }
         public DateTime Purchasedate { get; set; }
         public int Warranty_duration { get; set; }
+        [JsonIgnore]
+        public string Color { get; set; }
 
         /// <summary>
         /// Calculates warranty expiration with purchase date and warranty durration.
@@ -59,11 +68,14 @@ namespace Task2
         /// </summary>
         public void print_all()
         {
+            Console.WriteLine("-----------------------------------------");
             Console.WriteLine("Furniture name: " + Name);
             Console.WriteLine("Type: " + Type);
             Console.WriteLine("Producer: " + Producer);
             Console.WriteLine("Purchase date: " + Purchasedate);
-            Console.WriteLine("Warranty until: " + warranty_until());
+            if (Warranty_duration > 0) Console.WriteLine("Warranty until: " + warranty_until());
+            else Console.WriteLine("no warranty");
+            Console.WriteLine("-----------------------------------------");
         }
 
     }
@@ -71,6 +83,11 @@ namespace Task2
     public class device:objekt
     {
 
+        //public device(string name, string type, string producer, DateTime purchasedate, string serialnumber, int warranty_duration, decimal price, Boolean has_lan, string ip_LAN)
+        //    : this(name, type, producer, has_lan, false, serialnumber, purchasedate, warranty_duration, price, ip_LAN, "000.000.000.000")
+        //{
+
+        //}
 
         public device(string name)
             :this(name,"default", "default",false,false,"",DateTime.Now.Date,0,0,"000.000.000.000","000.000.000.000")
@@ -89,31 +106,34 @@ namespace Task2
             Purchasedate = purchasedate;
             Warranty_duration = warranty_duration;
             Price = price;
-            update_IP(ip_LAN,false);
-            update_IP(ip_WiFi, true);
+            if (has_LAN && ip_LAN != "") update_IP(ip_LAN, false);
+            else IP_LAN = "";
+            if (has_WiFi && ip_WiFi != "") update_IP(ip_WiFi, true);
+            else IP_WiFi = "";
         }
-
 
         public string Name { get; set; }
         public string Type { get; set; }
         public string Producer { get; set; }
 
-        public Boolean has_LAN { get; set; }
-        public Boolean has_WiFi { get; set; }
-
-        public string Serialnumber { get; set; }
         public DateTime Purchasedate { get; set; }
+        public string Serialnumber { get; set; }
+
         public int Warranty_duration { get; set; }
+        public decimal Price;
+
+        public Boolean has_LAN { get; set; }
+        public string IP_LAN;
+        public Boolean has_WiFi { get; set; }
+        public string IP_WiFi;
+
 
         public DateTime warranty_until()
         {
             return Purchasedate.AddYears(Warranty_duration);
         }
-       
 
-        public decimal Price;
-        public string IP_adress_LAN;
-        public string IP_adress_WiFi;
+
 
         public void update_IP(string ip, Boolean is_WiFi)
         { 
@@ -137,33 +157,36 @@ namespace Task2
                     //WiFi = true;
                     throw new Exception("WiFi ist nicht verfügbar!");
                 }
-                IP_adress_WiFi = ip;
+                IP_WiFi = ip;
             }
 
             else { 
                 if (!has_LAN)
                 {
                     //LAN = true;
-                    throw new Exception("LAN ist nicht verfügbar!");
+                    Console.WriteLine("HÄÖÄÖÖÖÄÄÖ");
+                    //throw new Exception("LAN ist nicht verfügbar!");
                 }
-                IP_adress_LAN = ip;
+                IP_LAN = ip;
             }
         }
 
         public void print_all()
         {
-
+            Console.WriteLine("-----------------------------------------");
             Console.WriteLine("Device name: " + Name);
             Console.WriteLine("Type: " + Type);
             Console.WriteLine("Producer: " + Producer);
             Console.WriteLine("has LAN: " + has_LAN);
+            if (has_LAN) Console.WriteLine("IP LAN: " + IP_LAN);
             Console.WriteLine("has WiFi: " + has_WiFi);
+            if (has_WiFi) Console.WriteLine("IP WiFi: " + IP_WiFi);
             Console.WriteLine("Serialnumber: " + Serialnumber);
             Console.WriteLine("Purchase date: " + Purchasedate);
-            Console.WriteLine("Warranty until: " + warranty_until());
+            if (Warranty_duration > 0) Console.WriteLine("Warranty until: " + warranty_until());
+            else Console.WriteLine("no warranty");
             Console.WriteLine("Price: " + Price);
-            Console.WriteLine("IP LAN: " + IP_adress_LAN);
-
+            Console.WriteLine("-----------------------------------------");
         }
     }
 }
