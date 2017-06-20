@@ -12,6 +12,7 @@ namespace Task2
     {
         DateTime warranty_until();
         void print_all();
+        string Name { get; set; }
     }
 
     public class furniture:objekt
@@ -189,4 +190,8 @@ namespace Task2
             Console.WriteLine("-----------------------------------------");
         }
     }
+
+
+
+
 }

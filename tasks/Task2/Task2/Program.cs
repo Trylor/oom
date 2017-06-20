@@ -23,6 +23,13 @@ namespace Task2
                 new device("Testgerät","testype","noname",false,false,"",DateTime.Now.Date,0,25,"0.0.0.0","0.0.0.0")
             };
 
+
+            IEnumerable<objekt> en = new List<objekt> (items);
+ 
+
+
+
+
             //foreach (var x in items)
             //{
             //    Console.WriteLine("Garantie gültig bis: " + x.warranty_until());
@@ -37,6 +44,8 @@ namespace Task2
             var filename = Path.Combine(target, "task2_export.json");
             File.WriteAllText(filename, text);
 
+
+
             // De-Serialize Array of Items
             //filename = Path.Combine(target, "task2_import.json");
             var read_file = File.ReadAllText(filename);
@@ -49,7 +58,13 @@ namespace Task2
             }
 
 
+            var items2 = new objekt[0];
+            push.Run(items2);
 
+            foreach (var x in items2)
+            {
+                Console.WriteLine("Name:" + x.Name);
+            }
 
 
 
